@@ -2,7 +2,7 @@ import { useRef, useState, useEffect, useContext } from "react";
 import AuthContext from "../../context/AuthProvider";
 
 import axios from "../../api/axios";
-const LOGIN_URL = "/login";
+const LOGIN_URL = "/api/login";
 
 //console.log(LOGIN_URL);
 export function Login() {
@@ -25,10 +25,13 @@ export function Login() {
     setErrMsg("");
   }, [email, password]);
 
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       // console.log(email, password);
+     // const cfr = await axios.get("/sanctum/csrf-cookie");
       const response = await axios.post(
         LOGIN_URL,
         JSON.stringify({ email, password }),
@@ -36,10 +39,9 @@ export function Login() {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
         }
-        
       );
       console.log(JSON.stringify(response?.data));
-      //console.log(JSON.stringify(response));
+      console.log(JSON.stringify(response));
       const accessToken = response?.data?.accessToken;
       const roles = response?.data?.roles;
       setAuth(email, password, roles, accessToken);
