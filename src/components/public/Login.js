@@ -25,23 +25,23 @@ export function Login() {
     setErrMsg("");
   }, [email, password]);
 
-
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       // console.log(email, password);
-     // const cfr = await axios.get("/sanctum/csrf-cookie");
+      //const cfr = await axios.get("/sanctum/csrf-cookie");
       const response = await axios.post(
         LOGIN_URL,
-        JSON.stringify({ email, password }),
+        { email: email, password: password },
         {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        }
-      );
-      console.log(JSON.stringify(response?.data));
-      console.log(JSON.stringify(response));
+          headers: {
+            'Content-Type': 'application/json;charset=UTF-8'
+          },
+           withCredentials: true,
+        });
+     // await axios.get("api/user");
+      console.log(response?.data);
+      console.log(response);
       const accessToken = response?.data?.accessToken;
       const roles = response?.data?.roles;
       setAuth(email, password, roles, accessToken);
