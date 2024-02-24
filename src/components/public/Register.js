@@ -8,7 +8,7 @@ import axios from "../../api/axios";
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PASSWORD_REGEX =/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-const REGISTER_URL = "/api/register";
+const REGISTER_URL = "/register";
 export function Register() {
   const userRef = useRef();
   const emailRef = useRef();
@@ -52,12 +52,13 @@ export function Register() {
 
   useEffect(() => {
     const result = PASSWORD_REGEX.test(pwd);
-    console.log(result);
     console.log(pwd);
+    console.log(matchPwd);
+    console.log(result);
     setValidPwd(result);
     const match = pwd === matchPwd;
-    setValidMatch(match, matchPwd);
-  }, [pwd]);
+    setValidMatch(match);
+  }, [pwd,matchPwd]);
 
   useEffect(() => {
     setErrMsg("");
@@ -75,7 +76,7 @@ export function Register() {
     try {
       const response = await axios.post(
         REGISTER_URL,
-        JSON.stringify({ user, pwd }),
+        { name:user, email: email, password: pwd ,  password_confirmation:matchPwd },
         {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
@@ -97,6 +98,7 @@ export function Register() {
         setErrMsg("Username Taken");
       } else {
         setErrMsg("Registration Failed");
+
       }
       errRef.current.focus();
     }
@@ -122,6 +124,9 @@ export function Register() {
           </p>
           <h1>Register</h1>
           <form onSubmit={handleSubmit}>
+
+
+
             <label htmlFor="userName">
               Username:
               <span className={validName ? "valid" : "hide"}>
@@ -131,6 +136,7 @@ export function Register() {
                 <FontAwesomeIcon icon={faTimes} />
               </span>
             </label>
+
             <input
               type="text"
               id="username"
@@ -155,6 +161,10 @@ export function Register() {
               <br />
               Letters, numbers, underscores, hyphens allowed.
             </p>
+
+
+
+
             <label htmlFor="email">
               Email:
               <span className={validEmail ? "valid" : "hide"}>
@@ -197,7 +207,7 @@ export function Register() {
               <span className={validPwd ? "valid" : "hide"}>
                 <FontAwesomeIcon icon={faCheck} />
               </span>
-              <span className={validEmail || !pwd ? "hide" : "invalid"}>
+              <span className={validPwd || !pwd ? "hide" : "invalid"}>
                 <FontAwesomeIcon icon={faTimes} />
               </span>
             </label>
@@ -229,6 +239,9 @@ export function Register() {
               <span aria-label="dollar sign">$</span>{" "}
               <span aria-label="percent">%</span>
             </p>
+
+
+
             <label htmlFor="confirm_pwd">
               Confirm Password:
               <span className={validMatch && matchPwd ? "valid" : "hide"}>
@@ -248,7 +261,7 @@ export function Register() {
               aria-describedby="confirmnote"
               onFocus={() => setMatchFocus(true)}
               onBlur={() => setMatchFocus(false)}
-            />{" "}
+            />
             <p
               id="confirmnote"
               className={
