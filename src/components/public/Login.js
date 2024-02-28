@@ -15,10 +15,10 @@ export function Login() {
   const userEmailRef = useRef();
   const errRef = useRef();
 
-  const [email, setUserEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setUserEmail] = useState("StafAdmin@boozenow.hu");
+  const [password, setPassword] = useState("StafAdminBo0ze-nOOOw!");
   const [errMsg, setErrMsg] = useState("");
-  const [success, setSuccess] = useState(false);
+ //const [success, setSuccess] = useState(false);
 
   console.log(email, password);
 
@@ -30,6 +30,13 @@ export function Login() {
     setErrMsg("");
   }, [email, password]);
 
+let token = "";
+const csrf = () =>
+    axios.get("/token").then((response) => {
+        console.log(response);
+        token = response.data;
+    });
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -37,16 +44,16 @@ export function Login() {
       //const cfr = await axios.get("/sanctum/csrf-cookie");
       const response = await axios.post(
         LOGIN_URL,
-        { email: email, password: password },
+        { email: email, password: password ,_token: token,},
         {
           headers: {
             "Content-Type": "application/json;charset=UTF-8",
           },
-          withCredentials: true,
+          //withCredentials: true,
         }
       );
       // await axios.get("api/user");
-      console.log(response?.data);
+      console.log(response?.data.access_token);
       console.log(response);
       const accessToken = response?.data?.accessToken;
       const roles = response?.data?.roles;
