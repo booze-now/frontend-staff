@@ -64,6 +64,14 @@ export function Register() {
     setErrMsg("");
   }, [user, pwd, matchPwd]);
 
+  let token = "";
+const csrf = () =>
+    axios.get("/token").then((response) => {
+        console.log(response);
+        token = response.data;
+    });
+console.log(csrf);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     // if button enabled with JS hack
@@ -76,7 +84,7 @@ export function Register() {
     try {
       const response = await axios.post(
         REGISTER_URL,
-        { name:user, email: email, password: pwd ,  password_confirmation:matchPwd },
+        { name:user, email: email, password: pwd ,  password_confirmation:matchPwd ,_token:token},
         {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,

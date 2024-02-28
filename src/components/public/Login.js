@@ -15,8 +15,8 @@ export function Login() {
   const userEmailRef = useRef();
   const errRef = useRef();
 
-  const [email, setUserEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setUserEmail] = useState("admin@boozenow.hu");
+  const [password, setPassword] = useState("Bo0ze-nOOOw!");
   const [errMsg, setErrMsg] = useState("");
   const [success, setSuccess] = useState(false);
 
@@ -37,7 +37,7 @@ export function Login() {
       //const cfr = await axios.get("/sanctum/csrf-cookie");
       const response = await axios.post(
         LOGIN_URL,
-        { email: email, password: password },
+        { email: email, password: password},
         {
           headers: {
             "Content-Type": "application/json;charset=UTF-8",
