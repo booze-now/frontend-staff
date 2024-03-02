@@ -1,14 +1,19 @@
 import React, { useState, useEffect, useRef } from "react";
 
-import { faCheck, faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCheck,
+  faTimes,
+  faInfoCircle,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "../../api/axios";
 
-
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
-const PASSWORD_REGEX =/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
+const PASSWORD_REGEX =
+  /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const REGISTER_URL = "/register";
+
 export function Register() {
   const userRef = useRef();
   const emailRef = useRef();
@@ -58,14 +63,25 @@ export function Register() {
     setValidPwd(result);
     const match = pwd === matchPwd;
     setValidMatch(match);
-  }, [pwd,matchPwd]);
+  }, [pwd, matchPwd]);
 
   useEffect(() => {
     setErrMsg("");
   }, [user, pwd, matchPwd]);
 
+  let token = "";
+  const csrf = () =>
+    axios.get(REGISTER_URL).then((response) => {
+      console.log(response);
+      token = response.data;
+    });
+
+    console.log(csrf);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    //lekérjük a csrf tokent
+    await csrf();
     // if button enabled with JS hack
     const v1 = USER_REGEX.test(user);
     const v2 = PASSWORD_REGEX.test(pwd);
@@ -76,10 +92,16 @@ export function Register() {
     try {
       const response = await axios.post(
         REGISTER_URL,
-        { name:user, email: email, password: pwd ,  password_confirmation:matchPwd },
+        {
+          name: user,
+          email: email,
+          password: pwd,
+          password_confirmation: matchPwd,
+          _token: token,
+        },
         {
           headers: { "Content-Type": "application/json" },
-          withCredentials: true,
+          withCredentials: false,
         }
       );
       console.log(response?.data);
@@ -98,7 +120,6 @@ export function Register() {
         setErrMsg("Username Taken");
       } else {
         setErrMsg("Registration Failed");
-
       }
       errRef.current.focus();
     }
@@ -124,9 +145,6 @@ export function Register() {
           </p>
           <h1>Register</h1>
           <form onSubmit={handleSubmit}>
-
-
-
             <label htmlFor="userName">
               Username:
               <span className={validName ? "valid" : "hide"}>
@@ -161,9 +179,6 @@ export function Register() {
               <br />
               Letters, numbers, underscores, hyphens allowed.
             </p>
-
-
-
 
             <label htmlFor="email">
               Email:
@@ -200,7 +215,6 @@ export function Register() {
               <br />
               Must begin with : example@example.com.
             </p>
-
 
             <label htmlFor="password">
               Password:
@@ -239,8 +253,6 @@ export function Register() {
               <span aria-label="dollar sign">$</span>{" "}
               <span aria-label="percent">%</span>
             </p>
-
-
 
             <label htmlFor="confirm_pwd">
               Confirm Password:

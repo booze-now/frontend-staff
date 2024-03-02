@@ -30,12 +30,7 @@ export function Login() {
     setErrMsg("");
   }, [email, password]);
 
-let token = "";
-const csrf = () =>
-    axios.get("/token").then((response) => {
-        console.log(response);
-        token = response.data;
-    });
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -44,7 +39,7 @@ const csrf = () =>
       //const cfr = await axios.get("/sanctum/csrf-cookie");
       const response = await axios.post(
         LOGIN_URL,
-        { email: email, password: password ,_token: token,},
+        { email: email, password: password },
         {
           headers: {
             "Content-Type": "application/json;charset=UTF-8",
