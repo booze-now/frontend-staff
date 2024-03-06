@@ -8,6 +8,8 @@ export default axios.create({
     withCredentials: false,
   },
 });
+
+
 export const axiosPrivate = axios.create({
   baseURL: BASE_URL,
   headers: {

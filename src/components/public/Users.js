@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import DisplayUser from "../../view/DisplayUser";
 export default function Users() {
   const [users, setUsers] = useState([]);
   const axiosPrivate = useAxiosPrivate();
@@ -33,11 +34,7 @@ export default function Users() {
     <article>
       <h2>Users list</h2>
       {users?.length ? (
-        <ul>
-          {users.map((user, i) => (
-            <li key={i}>{user?.name}</li>
-          ))}
-        </ul>
+        <DisplayUser data={users} />
       ) : (
         <p>No usres to display</p>
       )}

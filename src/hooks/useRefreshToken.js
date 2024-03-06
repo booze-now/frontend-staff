@@ -6,7 +6,7 @@ export default function useRefresToken() {
 
   const refresh = async () => {
     try {
-      const response = await axios.get("/login", {
+      const response = await axios.get("/refresh", {
         withCredentials: true,
       });
 
