@@ -45,13 +45,12 @@ export default function DisplayUser(props) {
               <td>
                 <button className="delet" onClick={() => handleDelete(user.id)}>Delete</button>
               </td>
-              <td>
-                <button className="add" onClick={() => handleAdd(user.id)}>Add</button>
-              </td>
+
             </tr>
           ))}
         </tbody>
       </table>
+      <button className="add" onClick={() => handleAdd()}>Add</button>
     </div>
   );
 }
