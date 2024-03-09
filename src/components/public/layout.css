@@ -1,0 +1,102 @@
+body {
+    background-color: black;
+  }
+  .logo img{
+      height: 90px;
+      padding-left: 20px;
+      margin-bottom: 20px;
+   
+  }
+  
+  .welcomeText {
+      font-family: "Segoe Script";
+      background: linear-gradient(
+        to right,
+        #aa840f,
+        #ffe448,
+        #aa840f,
+        #ffe448,
+        #aa840f,
+        #ffe448,
+        #aa840f,
+        #ffe448
+      );
+      -webkit-background-clip: text;
+      color: transparent;
+      padding: 0px;
+      text-align: center;
+  }
+  
+  .navbar {
+    display: flex;
+    height: 90px;
+  
+  }
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+  
+  li {
+    float: left;
+  }
+  
+  li a {
+    display: block;
+    font-size: larger;
+    text-align: center;
+    padding: 30px;
+    margin-bottom: 0;
+    text-decoration: none;
+    font-family: "Segoe Script";
+    background: linear-gradient(
+      to right,
+      #aa840f,
+      #ffe448,
+      #aa840f,
+      #ffe448,
+      #aa840f,
+      #ffe448,
+      #aa840f,
+      #ffe448
+    );
+    -webkit-background-clip: text;
+    color: transparent;
+  }
+  
+  li a:hover {
+    color: #ffee6f;
+  }
+  
+  .notification{
+    height: 30px;
+    margin-top: 10px;
+    background: linear-gradient(
+      to right,
+      #aa840f,
+      #ffe448,
+      #aa840f,
+      #ffe448,
+      #aa840f,
+      #ffe448,
+      #aa840f,
+      #ffe448
+    );
+    color: transparent;
+  }
+  
+  .carousel-item{
+    height: 32rem;
+    background-color: #ffee6f;
+    position: relative;
+    background-position: center;
+    background-size: cover;
+  }
+  
+  .carousel-item-container{
+    position: absolute;
+    bottom: 0;
+    padding: 30px;
+  }
