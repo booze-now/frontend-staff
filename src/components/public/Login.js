@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect, useContext } from "react";
-import AuthContext from "../../context/AuthProvider";
+import useAuth from "../../hooks/useAuth";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 
 import axios from "../../api/axios";
@@ -7,20 +7,18 @@ const LOGIN_URL = "/login";
 
 //console.log(LOGIN_URL);
 export function Login() {
+  const { setAuth } = useAuth();
+
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location.state?.from?.pathname || "/";
+  const from = location.state?.from?.pathname || "dashboard";
 
-  const { setAuth } = useContext(AuthContext);
   const userEmailRef = useRef();
   const errRef = useRef();
 
   const [email, setUserEmail] = useState("StafAdmin@boozenow.hu");
   const [password, setPassword] = useState("StafAdminBo0ze-nOOOw!");
   const [errMsg, setErrMsg] = useState("");
- //const [success, setSuccess] = useState(false);
-
-  console.log(email, password);
 
   useEffect(() => {
     userEmailRef.current.focus();
@@ -30,13 +28,9 @@ export function Login() {
     setErrMsg("");
   }, [email, password]);
 
-
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // console.log(email, password);
-      //const cfr = await axios.get("/sanctum/csrf-cookie");
       const response = await axios.post(
         LOGIN_URL,
         { email: email, password: password },
@@ -44,15 +38,12 @@ export function Login() {
           headers: {
             "Content-Type": "application/json;charset=UTF-8",
           },
-          //withCredentials: true,
         }
-      );
-      // await axios.get("api/user");
-      console.log(response?.data.access_token);
-      console.log(response);
-      const accessToken = response?.data?.accessToken;
-      const roles = response?.data?.roles;
-      setAuth(email, password, roles, accessToken);
+        );
+        const accessToken = response?.data?.access_token;
+        const roles = response?.data?.user.role_code;
+      //  console.log(`AccessToken: ${accessToken}', roles:${roles}`);
+      setAuth({email, password, roles, accessToken});
       setUserEmail("");
       setPassword("");
       navigate(from, { replace: true });

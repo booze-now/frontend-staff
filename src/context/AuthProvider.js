@@ -6,7 +6,13 @@ export const AuthProvider = ({ children }) => {
   const [auth, setAuth] = useState({});
 
   return (
-    <AuthContext.Provider value={{ auth, setAuth }}>
+    <AuthContext.Provider
+      value={{
+        // adatok melyeket gyerekek számára elérhetővé teszek
+        auth,
+        setAuth,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
