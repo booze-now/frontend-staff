@@ -8,8 +8,8 @@ export default function DrinksPage() {
   console.log(drinks);
   return (
     <div className="menu">
-      <h2>Itallap</h2>
-      <div className="accordion" id="accordionExample">
+      <h2>Drinks</h2>
+      <div  className="accordion" id="accordionExample">
         {Object.keys(drinks).map((category, i) => (
           <DrinkMainCategory key={i} category={drinks[category]} />
         ))}
@@ -102,7 +102,6 @@ function DrinkCard(props) {
     <Card style={{ width: "18rem" }}>
       <Card.Body>
         <Card.Title>{name}</Card.Title>
-        <Card.Text>{description}</Card.Text>
         <Card.Text>Price: ${price}</Card.Text>
         <Link
           to={{
@@ -110,9 +109,9 @@ function DrinkCard(props) {
             state: { drinks: props.drinks },
           }}
         >
-          <Button variant="dark">View</Button>
+          <Button variant="light">View</Button>
         </Link>
-        <Button variant="dark">Add to Cart</Button>
+        <Button variant="light">Add to Cart</Button>
       </Card.Body>
     </Card>
   );
